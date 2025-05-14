@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- تعديل نموذج عرض بيانات الموظف لإضافة حقول القطاع والإدارة -->
+    <record id="view_employee_form_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.dept.types</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <!-- إضافة الحقول بعد حقل القسم -->
+            <xpath expr="//field[@name='department_id']" position="after">
+                <field name="department_management_id"/>
+                <field name="sector_id"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- تعديل عرض شجرة الموظفين لإضافة الحقول الجديدة -->
+    <record id="view_employee_tree_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.tree.inherit.dept.types</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='department_id']" position="after">
+                <field name="department_management_id"/>
+                <field name="sector_id"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- إضافة الحقول للتجميع والفلترة في البحث -->
+    <record id="view_employee_filter_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.search.inherit.dept.types</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <!-- إضافة الفلاتر -->
+            <xpath expr="//filter[@name='department']" position="after">
+                <filter string="الإدارة" name="department_management" domain="[]" context="{'group_by':'department_management_id'}"/>
+                <filter string="القطاع" name="sector" domain="[]" context="{'group_by':'sector_id'}"/>
+            </xpath>
+            <!-- إضافة خيارات البحث -->
+            <xpath expr="//field[@name='department_id']" position="after">
+                <field name="department_management_id"/>
+                <field name="sector_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
